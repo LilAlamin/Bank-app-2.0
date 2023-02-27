@@ -24,6 +24,7 @@ Route::post("/nasabah/tambah",[$nasabah,"tambah_nasabah"]);
 Route::get("/nasabah/edit",[$nasabah,"form_edit"]);
 Route::post("/nasabah/edit",[$nasabah,"edit_nasabah"]);
 Route::get("/nasabah/hapus",[$nasabah,"hapus_nasabah"]);
+Route::post("/nasabah/search",[$nasabah,"search"]);
 
 //Crud Peminjaman
 $pinjam = peminjamancontroller::class;

@@ -12,7 +12,7 @@
     </tr>
 @if (count($data)==0)
     <tr>
-        <td colspan="5">
+        <td colspan="6">
             Data Tidak Ditemukan
         </td>
     </tr>
@@ -20,7 +20,7 @@
 
     @foreach ($data as $dat)
         <tr>
-            <td>{{ $dat->nama }}</td>
+            <td>{{ $dat->nama_nasabah }}</td>
             <td>{{ $dat->jumlah_pinjam }}</td>
             <td>{{ $dat->tanggal_pinjam }}</td>
             <td>{{ $dat->tanggal_kembali }}</td>

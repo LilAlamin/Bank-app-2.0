@@ -34,4 +34,9 @@ class nasabahcontroller extends Controller
         DB::delete("delete from nasabah where kode=?",[$req->kode]);
         return redirect("/nasabah");
     }
+    public function search(Request $req){
+        $title = "Nasabah";
+        $data = DB::select("select * from nasabah where nama LIKE concat('%',?,'%')",[$req->search]);//kata req ->search berasal dari nama input search di blade 
+        return view('nasabah.nasabah',['data'=>$data,'title'=>$title,]);
+    }
 }

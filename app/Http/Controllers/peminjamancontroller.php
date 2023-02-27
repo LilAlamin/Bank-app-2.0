@@ -28,23 +28,21 @@ class peminjamancontroller extends Controller
         $peminjaman = DB::select("select timestampdiff(day,tanggal_kembali,now()) As bedo,tanggal_pinjam,kode_nasabah,jumlah_pinjam from peminjaman where id=?",
     [$req->id]);
     $peminjaman=$peminjaman[0];
+    $nama_nasabah = DB::select("select nama from nasabah where kode=?",[$peminjaman->kode_nasabah]);
     $bedo = $peminjaman->bedo;
     $denda = 0;
     if($bedo > 0){
         $denda = 15000 *$bedo;
     }
     DB::insert("insert into pengembalian values(null,?,?,?,date(now()),?)",
-    [$peminjaman->kode_nasabah,$peminjaman->jumlah_pinjam,$peminjaman->tanggal_pinjam,$denda]);
+    [$nama_nasabah[0]->nama,$peminjaman->jumlah_pinjam,$peminjaman->tanggal_pinjam,$denda]);
     DB::delete("delete from peminjaman where id=?",[$req->id]);
     return redirect("/pengembalian");
     }
 
     public function list_kembali(){
         $title = "Pengembalian";
-        $data=DB::select("select pengembalian.jumlah_pinjam,nasabah.nama,pengembalian.tanggal_pinjam,pengembalian.tanggal_kembali,pengembalian.denda,
-        pengembalian.jumlah_pinjam + pengembalian.denda as total
-        from pengembalian
-        inner join nasabah on nasabah.kode=pengembalian.kode_nasabah");
+        $data=DB::select("select nama_nasabah,jumlah_pinjam,tanggal_pinjam,tanggal_kembali,denda,denda + jumlah_pinjam as total from pengembalian");
         return view("peminjaman.pengembalian",['data'=>$data,'title'=>$title]);
     }
 }
